@@ -1,6 +1,6 @@
 // ------------------------------------
 // Date:2018/ 3/ 8
-// Problem:ABC 061 BetweenTwoIntegers a.cpp
+// Problem:ABC 061 CountingRoads b.cpp
 //
 // ------------------------------------
 
@@ -18,16 +18,36 @@ using namespace std;
 
 typedef long long ll;
 
-static const int MOD = 1000000007;
+// static const int MOD = 1000000007;
+
+// line[from][to]
+int line[55][55];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  int A, B, C;
-  cin >> A >> B >> C;
-  cout << (A <= C and C <= B ? "Yes" : "No") << endl;
+  memset(line, 0, sizeof(line));
+  int N, M;
+  cin >> N >> M;
+  int from, to;
+  REP(i, M) {
+    cin >> from >> to;
+    --from;
+    --to;
+    ++line[from][to];
+    ++line[to][from];
+  }
+
+  int cnt;
+  REP(from, N) {
+    cnt = 0;
+    REP(to, N) {
+      cnt += line[from][to];
+    }
+    cout << cnt << endl;
+  }
   
   return 0;
 }
