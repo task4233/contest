@@ -49,7 +49,7 @@ int main()
       if (!line[p[i]][p[i+1]]) ok = false;
       if (ok && i == N - 2) ++cnt;
     }
-  } while(next_permutation(p, p+N)); // 辞書式配列に並べ換えるライブラリ関数
+  } while(next_permutation(p, p+ N)); // 辞書式配列に並べ換えるライブラリ関数
   cout << cnt << endl;
   
   return 0;

@@ -30,22 +30,23 @@ int main()
 
   bool ok = false;
   bool flag;
-  int cnt;
-  REP(si, s.size()) {
+  int cnt = 0;
+  REP(si, s.size() - t.size() + 1) {
+    flag = true;
     REP(ti, t.size()) {
-      if (flag) {
-	if ((s[si] == t[ti] or s[si] == '?') and ti == t.size() - 1) {
-	  REP(tj, t.size()) {
-	    s[si + tj] = t[tj];
-	  }
-	  ok = true;
-	}
-	if (!(s[si] == t[ti] or s[si] == '?')) flag = false;
-      } else {
-	if (s[si] == t[ti]) {
-	  flag = true;
-	}
-      }
+      if (not(s[si + ti] == t[ti] or s[si + ti] == '?')) flag = false;
+    }
+    if (flag) {
+      cnt = si;
+      ok = true;
+    }
+  }
+  REP(ti, t.size()) {
+    s[ti + cnt] = t[ti];
+  }
+  REP(si, s.size()) {
+    if (s[si] == '?') {
+      s[si] = 'a';
     }
   }
 

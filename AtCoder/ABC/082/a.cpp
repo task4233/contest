@@ -1,6 +1,6 @@
 // ------------------------------------
-// Date:2018/ 3/ 5
-// Problem:ABC 082 RoundUpTheMean a.cpp
+// Date:2018/ 3/ 8
+// Problem:ABC 082 Sandglass2 a.cpp
 //
 // ------------------------------------
 
@@ -24,13 +24,6 @@ int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
-
-  int a, b;
-  cin >> a >> b;
-  int sum = a + b;
-  
-  cout << (sum / 2 + (sum%2==0?0:1)) << endl;
-  
   return 0;
 }
 

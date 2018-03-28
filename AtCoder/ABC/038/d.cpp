@@ -38,8 +38,6 @@ int main()
   sort(ALL(tmp));
   fill_n(dp, N, INF);
   
-  
-  
   int res = 0;
   REP(i, N) {
     dp[i] = 1;
