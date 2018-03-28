@@ -1,6 +1,6 @@
 // ------------------------------------
 // Date:2018/ 3/28
-// Problem:Mysterious Light / b.cpp
+// Problem:Shift Only _ d.cpp
 //
 // ------------------------------------
 
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-#define EACH(i,a) for (auto& i : a)
+#define EACH(i,a) for (auto&& i : a)
 #define FOR(i,a,b) for(int i=(int)a;i<(int)b;++i)
 #define RFOR(i,a,b) for(int i=(int)b-1;i>=(int)a;--i)
 #define REP(i,n) FOR(i,0,n)
@@ -31,23 +31,18 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll solve(ll n, ll x)
+int solve(vector< int > A)
 {
-  // debug(n);
-  // debug(x);
-  ll tmp = n - x;
-  if (tmp == 0) return 2 * n;
-  
-  ll res = 0;
-  if (x > n) {
-    if (x % n == 0) {
-      res += x * 2 * + solve(x, tmp);
-    } else {
-      res += tmp * 2 * (n / x);
-      res += x + solve(x, n % x);
+  int cnt = 0;
+  bool ok = true;
+  while(ok) {
+    EACH(ai, A) {
+      if (!(ai & 1)) ai >>= 1;
+      else ok = false;
     }
+    cnt++;
   }
-  return res;
+  return cnt - 1;
 }
 
 int main()
@@ -55,12 +50,15 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  LCIN(N, X);
-  
-  ll ans = solve(N, X);
+  CIN(N);
+  vector< int > A(N);
+  REP(i, N)
+    cin >> A[i];
+
+  int ans = solve(A);
 
   cout << ans << endl;
-  
+
   return 0;
 }
 

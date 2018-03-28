@@ -1,6 +1,6 @@
 // ------------------------------------
 // Date:2018/ 3/28
-// Problem:Mysterious Light / b.cpp
+// Problem:Otoshidama _ _ i.cpp
 //
 // ------------------------------------
 
@@ -31,36 +31,28 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll solve(ll n, ll x)
-{
-  // debug(n);
-  // debug(x);
-  ll tmp = n - x;
-  if (tmp == 0) return 2 * n;
-  
-  ll res = 0;
-  if (x > n) {
-    if (x % n == 0) {
-      res += x * 2 * + solve(x, tmp);
-    } else {
-      res += tmp * 2 * (n / x);
-      res += x + solve(x, n % x);
-    }
-  }
-  return res;
-}
+ll N, Y;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  LCIN(N, X);
-  
-  ll ans = solve(N, X);
+  cin >> N >> Y;
+  REP(xi, N + 1) {
+    if (xi * 10000 > Y) break;
+    REP(yi, N + 1 - xi) {
+      ll remain = (Y - xi * 10000 - yi * 5000) / 1000;
+      if (remain == (N - xi - yi)) {
+	debug(remain);
+	printf("%d %d %d\n", xi, yi, remain);
+	return 0;
+      }
+    }
+  }
 
-  cout << ans << endl;
-  
+  cout << "-1 -1 -1" << endl;
+
   return 0;
 }
 
