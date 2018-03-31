@@ -1,0 +1,21 @@
+# -*- mode: snippet -*-
+# name: Eratosthenes
+# key: Eratosthenes
+# エラトステネスの篩
+# --
+
+struct Eratosthenes {
+  vector< bool > prime;
+  Eratosthenes(int _size) {
+    init(_size);
+  }
+
+  init(int n) {
+    prime.resize(n + 1);
+    memset(prime, false, sizeof(prime));
+    for(int i = 2; i < sqrt(n); i++)
+      if (prime[i])
+        for (int j = 0; i * (j + 2) < N; j++)
+	  prime[i * (j + 2)] = false;
+  }
+};

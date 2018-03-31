@@ -1,0 +1,52 @@
+# -*- mode: snippet -*-
+# name: Weighted-Union-find
+# key: wuf
+# 重み付きUnion-Find木のテンプレ
+# --
+
+template< class Type > struct UnionFind {
+  vector< int > par;
+  vector< Type > diff_weight;
+  UnionFind(int n = 1, Type SUM_UNITY = 0) {
+    init(n, SUM_UNITY);
+  }
+
+  void init(int n, Type SUM_UNITY) {
+    par.resize(n); diff_weight(n);
+    for(int i = 0; i < n; i++) {
+      par[i] = -1;
+      diff_weight[i] = SUM_UNITY;
+    }
+  }
+  
+  int root(int n) {
+    if (par[n] < 0) return n;
+    // 累積和をとる
+    diff_weight[n] += diff_weight[par[n]];
+    return par[n] = root(par[n]);
+  }
+
+  int weight(int n) {
+    // 経路圧縮をする
+    root(n);
+    return diff_weight[n];
+  }
+
+  // weight(x) - weight(y) = wとなるようにmerge
+  bool merge(int x, int y, int w) {
+    // xとyそれぞれについてrootとの重み付き補正
+    w -= weight(x); w += weight(y);
+    x = root(x); y = root(y);
+    if (x == y) return false;
+    if (par[x] > par[y]) {
+      swap(x, y);
+      w *= -1;
+    }
+    par[x] += par[y];
+    par[y] = x;
+
+    // xがyの大和になるので、xとyの差分をdiff_weight[y]に記録
+    diff_weight[y] = w;
+    return true;
+  }
+};
