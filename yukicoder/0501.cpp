@@ -1,3 +1,10 @@
+// ------------------------------------
+// Date:2018/ 4/ 1
+// Problem:No.501 穴と文字列 / 0501.cpp
+//
+// ------------------------------------
+
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -25,50 +32,32 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-struct nCr {
-  const int MOD = 1e9 + 7;
-  vector< int > fact;
-  nCr(int _n) {
-    init(_n);
-  }
-
-  init(int n) {
-    fact.resize(n + 1);
-    fact[0] = 1;
-    for (int i = 1; i < n; i++)
-      fact[i] = (fact[i - 1] % MOD) * i % MOD;
-  }
-
-  int power(int x, int n) {
-    int res = 1;
-    while(n > 0) {
-      if (n & 1) res = (res % MOD) * (x % MOD) % MOD;
-      x = (x % MOD) * (x % MOD) % MOD;
-      n >>= 1;
-    }
-    return res % MOD;
-  }
-
-  int inverse(int n) {
-    return power(n, MOD - 2);
-  }
-
-  int MODnCr(int n, int r) {
-    return (fact[n] % MOD) * (inverse(fact[n - r]) % MOD) * (inverse(fact[r]) % MOD) % MOD;
-  }
-};
-
-
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  CIN(W, H);
-  nCr n(W + H);
-  cout << n.MODnCr(W + H - 2, H - 1) << endl;
+  string ans;
+  CIN(N, D);
+
+  /*
+  if (D == 0) {
+    ans = string(N, 'C');
+  } else
+    */
+  {
+    int bNum = max(0, D - N);
+    int aNum = max(0, D - bNum * 2);
+    ans = string(aNum, 'A');
+    ans += string(bNum, 'B');
+    // debug(aNum);
+    // debug(bNum);
+    ans += string(N - bNum - aNum, 'C');
+  }
+
+  cout << ans << endl;
+  
 
   return 0;
 }
-
 
