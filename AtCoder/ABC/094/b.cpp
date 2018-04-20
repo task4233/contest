@@ -1,3 +1,9 @@
+// ------------------------------------
+// Date:2018/ 4/14
+// Problem:/ / / b.cpp
+//
+// ------------------------------------
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -25,20 +31,31 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
+int N, M, X;
+int a[111];
+
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  string S;
-  cin >> S;
-
-  int bias = (S[0] == S.back() ? 1 : 0);
+  cin >> N >> M >> X;
+  fill_n(a, 111, 0);
+  REP(i, M) {
+    CIN(p);
+    a[p]++;
+  }
   
-  string ans;
-  if ((S.size() + bias) & 1) ans = "First";
-  else ans = "Second";
+  int ucost, dcost;
+  ucost = dcost = 0;
+  RREP(i, X + 1) {
+    dcost += a[i];
+  }
+  FOR(i, X + 1, N + 1) {
+    ucost += a[i];
+  }
 
+  int ans = min(dcost, ucost);
   cout << ans << endl;
 
   return 0;

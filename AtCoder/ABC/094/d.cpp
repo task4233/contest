@@ -1,3 +1,9 @@
+// ------------------------------------
+// Date:2018/ 4/14
+// Problem:/ / / d.cpp
+//
+// ------------------------------------
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -25,21 +31,41 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
+ll fact[MAX_N];
+
+int N;
+
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  string S;
-  cin >> S;
-
-  int bias = (S[0] == S.back() ? 1 : 0);
+  fact[0] = 1ll;
+  FOR(i, 1, MAX_N) {
+    fact[i] = fact[i - 1] * i;
+  }
   
-  string ans;
-  if ((S.size() + bias) & 1) ans = "First";
-  else ans = "Second";
+  cin >> N;
+  vector< ll > a(N);
+  REP(i, N)
+    cin >> a[i];
 
-  cout << ans << endl;
+  sort(ALL(a));
+
+  ll n = a.back();
+  a.pop_back();
+
+  ll dist = INF;
+  int r = 0;
+  REP(i, a.size()) {
+    ll tmp = n - a[i];
+    if (abs(tmp - a[i]) < dist) {
+      r = a[i];
+      dist = abs(tmp - a[i]);
+    }
+  }
+
+  cout << n << " " << r << endl;
 
   return 0;
 }

@@ -1,3 +1,9 @@
+// ------------------------------------
+// Date:2018/ 4/14
+// Problem:/ / / c.cpp
+//
+// ------------------------------------
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -25,21 +31,29 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
+int N;
+
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  string S;
-  cin >> S;
+  cin >> N;
+  vector< int > X(N);
+  REP(i, N)
+    cin >> X[i];
 
-  int bias = (S[0] == S.back() ? 1 : 0);
+  vector< int > tmp(X);
+  sort(ALL(tmp));
+
+  REP(i, N) {
+    int center = tmp[N / 2 - 1];
+    if (X[i] <= center) {
+      center = tmp[N / 2];
+    }
+    cout << center << endl;
+  }
   
-  string ans;
-  if ((S.size() + bias) & 1) ans = "First";
-  else ans = "Second";
-
-  cout << ans << endl;
 
   return 0;
 }

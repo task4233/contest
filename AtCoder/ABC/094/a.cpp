@@ -1,3 +1,9 @@
+// ------------------------------------
+// Date:2018/ 4/14
+// Problem:/ / / a.cpp
+//
+// ------------------------------------
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -9,7 +15,7 @@ using namespace std;
 #define RREP(i,n) RFOR(i,0,n)
 #define ALL(a) (a).begin(),(a).end()
 #define debug(x) cerr << #x << ":" << x << endl;
-#define OK(ok) cout << (ok ? "Yes" : "No") << endl;
+#define OK(ok) cout << (ok ? "YES" : "NO") << endl;
 typedef long long ll;
 
 void CINT(){}
@@ -30,16 +36,9 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  string S;
-  cin >> S;
+  CIN(a, b, x);
 
-  int bias = (S[0] == S.back() ? 1 : 0);
-  
-  string ans;
-  if ((S.size() + bias) & 1) ans = "First";
-  else ans = "Second";
-
-  cout << ans << endl;
+  OK(0 <= x - a && x - a <= b);
 
   return 0;
 }

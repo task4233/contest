@@ -30,16 +30,7 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  string S;
-  cin >> S;
-
-  int bias = (S[0] == S.back() ? 1 : 0);
   
-  string ans;
-  if ((S.size() + bias) & 1) ans = "First";
-  else ans = "Second";
-
-  cout << ans << endl;
 
   return 0;
 }

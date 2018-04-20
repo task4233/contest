@@ -30,17 +30,15 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  string S;
-  cin >> S;
-
-  int bias = (S[0] == S.back() ? 1 : 0);
-  
-  string ans;
-  if ((S.size() + bias) & 1) ans = "First";
-  else ans = "Second";
+  int ans = 0;
+  REP(hi, 3) {
+    CIN(a, b);
+    ans += a * b / 10;
+  }
 
   cout << ans << endl;
-
+  
+  
   return 0;
 }
 
