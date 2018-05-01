@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -21,39 +22,28 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll H, W;
+ll N;
+ll memo[MAX_N];
 
-ll solve()
+ll power(ll x, int n)
 {
-  ll res = LINF;
-  ll sq1, sq2, sq3;
-  
-  FOR (wi, 1, W) {
-    sq1 = H * wi;
-    REP(hi, 2) {
-      if (hi == 0) {
-	sq2 = H * ((W - wi) / 2);
-      } else {
-	sq2 = (H / 2) * (W - wi);
-      }
-      sq3 = H * W - sq1 - sq2;
-      ll mx = max(sq1, max(sq2, sq3));
-      ll mn = min(sq1, min(sq2, sq3));
+  if (memo[n] > -1) return memo[n];
 
-      /*
-	if (mx - mn < res) {
-	debug(wi);
-	debug(mx - mn);
-	}
-      */
-      res = min(res, mx - mn);
+  int t = n;
+  ll res = 1;
+  while(n > 0) {
+    if (n & 1) {
+      res *= x;
     }
+    x *= x;
+    n >>= 1;
   }
-  return res;
+
+  return memo[t] = res;
 }
 
 int main()
@@ -61,14 +51,30 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> H >> W;
-  ll ans = LINF;
-  ans = min(ans, solve());
-  swap(H, W);
-  ans = min(ans, solve());
+  cin >> N;
+
+  string ans;
+
+  memset(memo, -1, sizeof(memo));
+  
+  if (N == 1) {
+    cout <<  "Aoki" << endl;
+    return 0;
+  }
+  
+  REP(i, MAX_N) {
+    if (power(2, i + 1) > N) {
+      if (i & 1) {
+	ans = "Takahashi";
+      } else {
+	ans = "Aoki";
+      }
+      if (!ans.empty()) break;
+    }
+  }
 
   cout << ans << endl;
-
+  
   return 0;
 }
 

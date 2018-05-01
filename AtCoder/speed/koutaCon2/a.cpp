@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -21,39 +22,35 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll H, W;
+int W, H;
 
-ll solve()
+ll fact[MAX_N];
+
+ll power(ll x, ll n)
 {
-  ll res = LINF;
-  ll sq1, sq2, sq3;
-  
-  FOR (wi, 1, W) {
-    sq1 = H * wi;
-    REP(hi, 2) {
-      if (hi == 0) {
-	sq2 = H * ((W - wi) / 2);
-      } else {
-	sq2 = (H / 2) * (W - wi);
-      }
-      sq3 = H * W - sq1 - sq2;
-      ll mx = max(sq1, max(sq2, sq3));
-      ll mn = min(sq1, min(sq2, sq3));
-
-      /*
-	if (mx - mn < res) {
-	debug(wi);
-	debug(mx - mn);
-	}
-      */
-      res = min(res, mx - mn);
-    }
+  ll res = 1ll;
+  while(n > 0) {
+    if (n & 1)
+      res = res * x % MOD;
+    x = x * x % MOD;
+    n >>= 1;
   }
-  return res;
+
+  return res % MOD;
+}
+
+ll reverse(ll n)
+{
+  return power(n, MOD - 2);
+}
+
+ll nCr(ll n, ll r)
+{
+  return (fact[n] * reverse(fact[n - r]) % MOD) * reverse(fact[r]) % MOD;
 }
 
 int main()
@@ -61,11 +58,14 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> H >> W;
-  ll ans = LINF;
-  ans = min(ans, solve());
-  swap(H, W);
-  ans = min(ans, solve());
+  cin >> W >> H;
+  
+  fact[0] = 1;
+  REP(i, MAX_N) {
+    if (i > 0) fact[i] = fact[i - 1] * i % MOD;
+  }
+
+  ll ans = nCr(W + H - 2, W - 1);
 
   cout << ans << endl;
 

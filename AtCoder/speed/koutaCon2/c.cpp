@@ -21,51 +21,58 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll H, W;
-
-ll solve()
-{
-  ll res = LINF;
-  ll sq1, sq2, sq3;
-  
-  FOR (wi, 1, W) {
-    sq1 = H * wi;
-    REP(hi, 2) {
-      if (hi == 0) {
-	sq2 = H * ((W - wi) / 2);
-      } else {
-	sq2 = (H / 2) * (W - wi);
-      }
-      sq3 = H * W - sq1 - sq2;
-      ll mx = max(sq1, max(sq2, sq3));
-      ll mn = min(sq1, min(sq2, sq3));
-
-      /*
-	if (mx - mn < res) {
-	debug(wi);
-	debug(mx - mn);
-	}
-      */
-      res = min(res, mx - mn);
-    }
-  }
-  return res;
-}
+int N;
+ll K;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> H >> W;
-  ll ans = LINF;
-  ans = min(ans, solve());
-  swap(H, W);
-  ans = min(ans, solve());
+  cin >> N >> K;
+  vector< ll > s(N);
+  ll mn = INF;
+  REP(i, N) {
+    cin >> s[i];
+    mn = min(mn, s[i]);
+  }
+
+  if (mn == 0) {
+    cout << N << endl;
+    return 0;
+  }
+
+  if (mn > K) {
+    cout << 0 << endl;
+    return 0;
+  }
+
+    
+  ll product = 1ll;
+  int ub = 0;
+  int ans = 0;
+  REP(lb, N) {
+    ub = max(ub, lb);
+    if (lb > 0) product /= s[lb - 1];
+    if (ub == lb) product = s[lb];
+    while(ub < N) {
+      if (K / product >= s[ub + 1]) {
+	ub++;
+	product *= s[ub];
+      } else {
+	// debug(lb)
+	// debug(ub);
+	// debug(product);
+	break;
+      }
+    }
+    ans = max(ans, ub - lb + (ub == N ? 0 : 1));
+    // debug(ans);
+  }
 
   cout << ans << endl;
 
