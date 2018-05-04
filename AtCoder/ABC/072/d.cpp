@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,11 +23,9 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 1e5 + 1;
 
 int N;
-
-bool state[MAX_N];
 
 int main()
 {
@@ -36,26 +33,50 @@ int main()
   ios::sync_with_stdio(false);
 
   cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
+  vector< int > p(N);
   REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
-    }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+    CIN(tmp); tmp--;
+    p[i] = i - tmp;
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  int last = -1;
+  int ans = INF;
+  int tmp = 0;
+  REP(i, N - 1) {
+    if (p[i] == 0 && p[i + 1] == 0) {
+      tmp++;
+      p[i]++;
+      p[i + 1]--;
+    }
+    // debug(i);
+    // debug(tmp);
+  }
 
+  REP(i, N) {
+    if (p[i] == 0) {
+      if (last == -1) last = i;
+      else {
+	tmp += min(i - last, 2);
+	last = -1;
+      }
+    }
+    // debug(i);
+    // debug(tmp);
+  }
+  
+
+  if (last != -1) {
+    tmp++;
+  }
+
+  ans = min(ans, tmp);
+  cout << ans << endl;
+
+  /*
+  EACH(pi, p)
+    debug(pi);
+  */
+  
   return 0;
 }
 

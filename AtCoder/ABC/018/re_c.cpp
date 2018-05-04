@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,37 +23,51 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 5e2 + 5;
 
-int N;
+int H, W, K;
+string S[MAX_N];
+bool state[MAX_N][MAX_N];
 
-bool state[MAX_N];
+void init(int hi, int wi)
+{
+  state[hi][wi] = true;
+  FOR(hj, -K + 1, K) {
+    int tmp = K - abs(hj);
+    FOR(wj, -tmp + 1, tmp){
+      if (!(0 <= hi + hj && hi + hj < H and
+	    0 <= wi + wj && wi + wj < W)) continue;
+      state[hi + hj][wi + wj] = true;
+    }
+  }
+}
+
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
+  cin >> H >> W >> K;
+  REP(hi, H) {
+    cin >> S[hi];
+  }
+    
+  int ans = 0;
+  REP(hi, H)
+    REP(wi, W) 
+      if (S[hi][wi] == 'x')
+	init(hi, wi);
+  
+  FOR(hi, K - 1, H - K + 1) {
+    FOR(wi, K - 1, W - K + 1) {
+      if (!state[hi][wi])
+	ans++;
     }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  // printf("%d\n", ans);
+  cout << ans << endl;
 
   return 0;
 }

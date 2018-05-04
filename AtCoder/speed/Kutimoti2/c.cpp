@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -10,7 +9,7 @@ using namespace std;
 #define RREP(i,n) RFOR(i,0,n)
 #define ALL(a) (a).begin(),(a).end()
 #define debug(x) cerr << #x << ":" << x << endl;
-#define OK(ok) cout << (ok ? "Yes" : "No") << endl;
+#define OK(ok) cout << (ok ? "POSSIBLE" : "IMPOSSIBLE") << endl;
 typedef long long ll;
 
 void CINT(){}
@@ -24,37 +23,40 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 1e5 + 1;
 
-int N;
-
-bool state[MAX_N];
+int N, M;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
+  cin >> N >> M;
 
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
+  set< int > from;
+  set< int > to;
+
+  int f, t;
+  REP(i, M) {
+    cin >> f >> t;
+    if (f == 1) {
+      from.erase(t);
+      from.insert(t);
     }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+
+    if (t == N) {
+      to.erase(f);
+      to.insert(f);
+    }
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  bool ok = false;
+  EACH(fi, from) {
+    if (to.find(fi) != to.end()) ok = true;
+  }
+
+  OK(ok);
 
   return 0;
 }

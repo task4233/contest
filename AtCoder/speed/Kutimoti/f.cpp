@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,37 +23,31 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 2e5 + 1;
 
-int N;
-
-bool state[MAX_N];
+int cnt[MAX_N][26];
+string S;
 
 int main()
 {
-  cin.tie(0);
-  ios::sync_with_stdio(false);
+  //cin.tie(0);
+  //ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
+  cin >> S;
+  int len = S.size();
+  REP(si, len) {
+    cnt[si + 1][S[si] - 97]++;
+    REP(i, 26) {
+      cnt[si + 1][i] += cnt[si][i];
     }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  int mn = INF;
+  REP(i, 26) {
+    mn = min(mn, cnt[len - 1][i]);
+    printf("%c = %d\n", i + 97, cnt[len - 1][i]);
+  }
+  printf("%d\n", mn);
 
   return 0;
 }

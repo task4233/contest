@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -26,36 +25,46 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e2 + 1;
 
-int N;
+int N, M;
 
-bool state[MAX_N];
+int e[MAX_N][MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
-    }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+  REP(i, MAX_N)
+    REP(j, MAX_N)
+    if (i == j) e[i][j] == 0;
+    else e[i][j] = INF;
+  
+  cin >> N >> M;
+  vector< int > a(M);
+  vector< int > b(M);
+  vector< int > c(M);
+  REP(i, M) {
+    cin >> a[i] >> b[i] >> c[i];
+    a[i]--; b[i]--;
+    e[a[i]][b[i]] = e[b[i]][a[i]] = c[i];
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  
 
+  REP(k, N) {
+    REP(i, N) {
+      REP(j, N) {
+	e[i][j] = min(e[i][j], e[i][k] + e[k][j]);
+      }
+    }
+  }
+
+  int ans = 0;
+  REP(i, M) {
+    if (e[a[i]][b[i]] < c[i]) ans++;
+  }
+
+  cout << ans << endl;
   return 0;
 }
 

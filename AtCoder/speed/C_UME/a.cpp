@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -10,7 +9,7 @@ using namespace std;
 #define RREP(i,n) RFOR(i,0,n)
 #define ALL(a) (a).begin(),(a).end()
 #define debug(x) cerr << #x << ":" << x << endl;
-#define OK(ok) cout << (ok ? "Yes" : "No") << endl;
+#define OK(ok) cout << (ok ? "YES" : "NO") << endl;
 typedef long long ll;
 
 void CINT(){}
@@ -24,37 +23,52 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 575;
 
-int N;
-
-bool state[MAX_N];
+int dp[101][MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
+  int N;
   cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
 
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
-    }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+  vector< int > NG(3);
+  bool ng = false;
+  REP(i, 3) {
+    cin >> NG[i];
+    if (NG[i] == N) ng = true;
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  if (ng) {
+    cout << "NO" << endl;
+    return 0;
+  }
+
+  dp[0][N] = 1;
+  
+  REP(i, 100) {
+    REP(j, MAX_N) {
+      if (j > 0) dp[i + 1][j - 1] += dp[i][j];
+      if (j > 1) dp[i + 1][j - 2] += dp[i][j];
+      if (j > 2) dp[i + 1][j - 3] += dp[i][j];
+    }
+
+    REP(j, 3) {
+      dp[i + 1][NG[j]] = 0;
+    }
+  }
+
+  bool ok = false;
+  REP(i, 101) {
+    // debug(dp[i][0]);
+    if (dp[i][0] > 0) ok = true;
+  }
+  OK(ok);
+
+  
 
   return 0;
 }

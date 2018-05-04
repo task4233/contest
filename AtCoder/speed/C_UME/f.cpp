@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,37 +23,31 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 1e5 + 1;
 
-int N;
+typedef pair< ll, ll > PL;
 
-bool state[MAX_N];
+// 満腹度, 出費をを保持
+PL dp[MAX_N][3];
+ll N, H, A, B, C, D, E;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
+  cin >> N >> H >> A >> B >> C >> D >> E;
 
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
-    }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+  REP(i, 3) {
+    dp[0][i] = make_pair(H, 0ll);
   }
-
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  
+  REP(i, N) {
+    int p, o;
+    tie(p, o)= dp[i][0];
+    
+  }
+  
 
   return 0;
 }

@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,11 +23,9 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 1e5 + 1;
 
 int N;
-
-bool state[MAX_N];
 
 int main()
 {
@@ -36,25 +33,23 @@ int main()
   ios::sync_with_stdio(false);
 
   cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
 
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
+  int sum = 0;
+  FOR(i, 1, 10) {
+    FOR (j, 1, 10) {
+      sum += i * j;
     }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  int dist = sum - N;
+
+  FOR (i, 1, 10) {
+    FOR (j, 1, 10) {
+      if (i * j == dist) {
+	printf("%d x %d\n", i, j);
+      }
+    }
+  }
 
   return 0;
 }

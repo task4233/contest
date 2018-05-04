@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,37 +23,58 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 11;
 
-int N;
+int N, M;
 
-bool state[MAX_N];
+bool e[MAX_N][MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
-    }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+  cin >> N >> M;
+  vector< int > a(M);
+  vector< int > b(M);
+  REP(i, M) {
+    cin >> a[i] >> b[i];
+    a[i]--; b[i]--;
+    e[a[i]][b[i]] = e[b[i]][a[i]] = true;
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  vector< int > ans(N, 0);
+  REP(f, N) {
+    REP(t, N) {
+      vector< int > from;
+      vector< int > to;
+      REP(k, M) {
+	if (a[k] == f) {
+	  from.emplace_back(b[k]);
+	}
+	if (b[k] == t) {
+	  to.emplace_back(a[k]);
+	}
+      }
+      // bool ok = false;
+      EACH(fi, from) {
+	EACH(ti, to) {
+	  debug(fi);
+	  debug(ti);
+	  if (e[fi][ti]) {
+	    ans[fi]++;
+	    ans[ti]++;
+	  }
+	}
+      }
+      //if (ok) ans[f]++;
+    }
+  }
+
+
+  REP(i, N) {
+    cout << ans[i] << endl;
+  }
 
   return 0;
 }

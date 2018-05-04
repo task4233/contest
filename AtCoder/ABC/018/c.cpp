@@ -24,37 +24,47 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
+const int MAX_N = 1e5 + 1;
+const int MAX_H = 505;
 
-int N;
+int H, W, K;
+string S[MAX_H];
 
-bool state[MAX_N];
+int bfs(int hi, int wi)
+{
+  FOR(hj, -K + 1, K) {
+    int tmp = K - abs(hj);
+    FOR(wj, -tmp + 1, tmp){
+      if (!(0 <= hi + hj && hi + hj < H and
+	    0 <= wi + wj && wi + wj < W)) return 0;
+      if (S[hi + hj][wi + wj] == 'x') return 0;
+    }
+  }
+  
+  // printf("(hi, wi) = %d %d\n\n", hi, wi);
+  return 1;
+}
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
+  cin >> H >> W >> K;
+  // scanf("%d %d %d", &H, &W, &K);
+  REP(hi, H)
+    cin >> S[hi];
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
+  int ans = 0;
+  FOR(hi, K - 1, H - K + 1) {
+    FOR(wi, K - 1, W - K + 1) {
+      if (S[hi][wi] == 'x') continue;
+      // printf("(hi, wi) = %d %d\n", hi, wi);
+      ans += bfs(hi, wi);
     }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
   }
 
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
+  // printf("%d\n", ans);
+  cout << ans << endl;
 
   return 0;
 }

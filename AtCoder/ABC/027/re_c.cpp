@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,38 +23,33 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e2 + 1;
-
-int N;
-
-bool state[MAX_N];
+const int MAX_N = 1e5 + 1;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< int > C(N);
-  REP(i, N)
-    cin >> C[i];
-
-  double ans = 0.0;
-  REP(i, N) {
-    int target = C[i];
-    int cnt = 0;
-    REP(j, N) {
-      if (i == j) continue;
-      if (target % C[j] == 0) cnt++;
+  LCIN(N);
+  
+  int k = (int)floor(log2(N)) % 2;
+  ll x = 1;
+  debug(k);
+  REP(i, 70) {
+    debug(i);
+    debug(x);
+    if ((i + k) % 2) {
+      x = 2 * x;
     }
-    int bias = !(cnt & 1);
-    ans += (double)(cnt + 1 + bias) / (double)(2 * (cnt + 1));
-    //  printf("%.7f\n", ans);
+    else {
+      x = 2 * x + 1;
+    }
+    if (x > N) {
+      cout << (i % 2 ? "Takahashi" : "Aoki") << endl;
+      break;
+    }
   }
-
-  printf("%.7f\n", ans);
-  //cout << ans << endl;
-
+	
   return 0;
 }
 
