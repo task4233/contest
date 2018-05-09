@@ -1,3 +1,9 @@
+// ------------------------------------
+// Date:2018/ 5/ 5
+// Problem:/ / / b.cpp
+//
+// ------------------------------------
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -21,36 +27,37 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll N, H, A, B, C, D, E;
+int A, B, C, K;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
-
-  ll current = H - N * E;
-
-  ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
-
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
-    }
+  priority_queue< ll > a;
+  REP(i, 3) {
+    CIN(p);
+    a.push(p);
   }
-  
+    
+  cin >> K;
+
+  REP(i, K) {
+    ll tmp = a.top(); a.pop();
+    tmp *= 2ll;
+    a.push(tmp);
+  }
+
+  ll ans = 0ll;
+  REP(i, 3) {
+    ll tmp = a.top(); a.pop();
+    ans += tmp;
+  }
+
   cout << ans << endl;
 
   return 0;

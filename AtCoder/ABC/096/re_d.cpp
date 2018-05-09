@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -24,50 +23,63 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 11;
+const int MAX_N = 55556;
 
-int N, M;
-int e[MAX_N][MAX_N];
+int N;
+
+struct Eratosthenes {
+  vector< bool > prime;
+  Eratosthenes(int _size) {
+    init(_size);
+  }
+
+  void init(int n) {
+    prime.resize(n + 1);
+    REP(i, prime.size()) prime[i] = true;
+    prime[0] = prime[1] = false;
+    for(int i = 2; i < sqrt(n); i++) {
+      if (prime[i]) {
+        for (int j = 0; i * (j + 2) < n; j++) {
+	  prime[i * (j + 2)] = false;
+	}
+      }
+    }
+  }
+};
+
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> M;
+  Eratosthenes e(MAX_N);
 
-  REP(i, N) {
-    fill_n(e[i], MAX_N, INF);
-    e[i][i] = 0;
-  }
-  
-  vector< int > a(M);
-  vector< int > b(M);
-  REP(i, M) {
-    cin >> a[i] >> b[i];
-    a[i]--; b[i]--;
-    e[a[i]][b[i]] = e[b[i]][a[i]] = 1;
-  }
-  
-  REP(k, N) {
-    REP(i, N) {
-      REP(j, N) {
-	e[i][j] = min(e[i][j], e[i][k] + e[k][j]);
-      }
+  cin >> N;
+
+  int cnt = 0;
+  vector< int > list;
+  REP(i, MAX_N) {
+    int tmp = 5 * i + 1;
+    if (e.prime[tmp]) {
+      cnt++;
+      list.emplace_back(tmp);
+    }
+    if (cnt > 55) {
+      break;
     }
   }
 
+  // int sum = 0;
   REP(i, N) {
-    int ans = 0;
-    REP(j, N) {
-      // if (i == j) continue;
-      if (e[i][j] == 2) ans++;
-      // debug(e[i][j]);
-    }
-    cout << ans << endl;
+    cout << list[i];
+    // sum += list[i];
+    if (i < N - 1) cout << " ";
+    else cout << endl;
   }
-  
 
+  // debug(sum);
+  
   return 0;
 }
 

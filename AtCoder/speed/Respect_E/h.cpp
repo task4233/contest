@@ -21,37 +21,41 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll N, H, A, B, C, D, E;
+int cnt[9];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
-
-  ll current = H - N * E;
-
-  ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
-
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
-    }
+  CIN(N);
+  vector< int > a(N);
+  REP(i, N) {
+    cin >> a[i];
+    int tmp = min(a[i] / 400, 8);
+    cnt[tmp]++;
   }
+
+  int mn = 0;
+  REP(i, 8) {
+    if (cnt[i] > 0) mn++;
+  }
+
+  int mx = mn;
+  if (mn == 0) {
+    mn = 1;
+    mx = cnt[8];
+  } else {
+    mx = mn + cnt[8];
+  }
+
+  cout << mn << " " << mx << endl;
+
   
-  cout << ans << endl;
 
   return 0;
 }

@@ -30,11 +30,88 @@ void CINT(Head&& head,Tail&&... tail) {
 static const int MOD = 1e9 + 7;
 static const int MAX_N = 1;
 
+int N, K;
+string S, ans;
+
+typedef pair< char, int > P;
+
+bool dfs(int cnt, int n, priority_queue< char, vector< char >, greater< char > > f, priority_queue< P, vector< P >, greater< P > > q) {
+  // if (cnt > K) return false;
+  if (q.empty()) return false;
+  if (n > N) return false;
+  
+  P tmp = q.top(); q.pop();
+  char ch = (f.empty() ? '_' : f.top());
+  /*
+  debug(cnt);
+  debug(tmp.first);
+  debug(tmp.second);
+  debug(ch);
+  debug(S);
+  */
+
+  if (cnt >= K) {
+    if (S[n] == '?') {
+      ans[n] = ch;
+      f.pop();
+    }
+  } else {
+    if (tmp.first != S[n]) { 
+      if (tmp.first == ch) {
+	// OK(true);
+	if (S[tmp.second] != S[n]) {
+	  f.pop();
+	}
+	if (S[tmp.second] != '?') {
+	  bool ok = true;
+	  REP(i, n) {
+	    if (ans[i] == ans[n]) ok = false;
+	  }
+	  if (ok)
+	  {
+	    f.push(ans[n]);
+	  }
+	}
+      ans[n] = tmp.first;
+      cnt++;
+      } else {
+	//OK(false);
+	if (S[n] != '?') {
+	  f.push(ans[n]);
+	  cnt++;
+	}
+	if (tmp.second >= n) {
+	  S[tmp.second] = '?';
+	}
+	ans[n] = tmp.first;
+	cnt++;
+      }
+    }
+  }
+  // debug(ans);
+  // cout << endl;
+  
+  dfs(cnt, n + 1, f, q);
+  
+  return true;
+}
+
 int main()
 {
-  CIN(N, K);
-  SCIN(S);
+  cin >> N >> K;
+  cin >> S;
+  ans = S;
+  
+  priority_queue< P, vector< P >, greater< P > > q;
+  REP(si, S.size()) {
+    P tmp = make_pair(S[si], si);
+    q.push(tmp);
+  }
 
+  priority_queue< char, vector< char >, greater< char > > f;
+  dfs(0, 0, f, q);
+
+  cout << ans << endl;
   
 
   return 0;

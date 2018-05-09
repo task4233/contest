@@ -21,37 +21,33 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
-
-ll N, H, A, B, C, D, E;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
-
-  ll current = H - N * E;
-
-  ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
-
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
-    }
+  CIN(N);
+  ll alice = 0ll;
+  ll bob = 0ll;
+  vector< ll > a(N);
+  REP(i, N) {
+    cin >> a[i];
   }
-  
-  cout << ans << endl;
+
+  sort(ALL(a), greater< ll >());
+
+  REP(i, N) {
+    if (!(i & 1)) alice += a[i];
+    else bob += a[i];
+  }
+
+  debug(alice);
+  debug(bob);
+  cout << alice - bob << endl;
 
   return 0;
 }

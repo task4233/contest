@@ -9,7 +9,7 @@ using namespace std;
 #define RREP(i,n) RFOR(i,0,n)
 #define ALL(a) (a).begin(),(a).end()
 #define debug(x) cerr << #x << ":" << x << endl;
-#define OK(ok) cout << (ok ? "Yes" : "No") << endl;
+#define OK(ok) cout << (ok ? "Found" : "Nothing") << endl;
 typedef long long ll;
 
 void CINT(){}
@@ -21,38 +21,42 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 575;
 
-ll N, H, A, B, C, D, E;
+int N, K;
+int T[MAX_N][MAX_N];
+
+bool dfs(int n, int xorSum)
+{
+  if (n == N) {
+    return xorSum == 0;
+  }
+
+  REP(i, K) {
+    if (dfs(n + 1, xorSum ^ T[n][i])) {
+      return true;
+    }
+  }
+  return false;
+}
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
+  cin >> N >> K;
 
-  ll current = H - N * E;
-
-  ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
-
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
+  REP(i, N) {
+    REP(j, K) {
+      cin >> T[i][j];
     }
   }
-  
-  cout << ans << endl;
 
+  OK(dfs(0, 0));
+  
   return 0;
 }
 

@@ -21,37 +21,54 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-ll N, H, A, B, C, D, E;
+string s, t;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
+  cin >> s >> t;
 
-  ll current = H - N * E;
+  string ans = "";
+  int num;
+  bool check = false;
+  REP(i, s.size()) {
+    
+    bool ok = true;
+    REP(j, t.size()) {
+      if (s[i + j] != t[j] && s[i + 1] != '?') {
+	ok = false;
+	// check = true;
+      }
+    }
+    if (!ok) continue;
 
-  ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
+    num = i;
+    check = true;
+    if (check) break;
+  }
 
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
+  REP(i, t.size()) {
+    s[i + num] = t[i];
+  }
+
+  REP(i, s.size()) {
+    if (s[i] == '?') {
+      s[i] = 'a';
     }
   }
   
-  cout << ans << endl;
+  if (!check) {
+    cout << "UNRESTORABLE" << endl;
+  } else {
+    cout << ans << endl;
+  }
+  
 
   return 0;
 }

@@ -1,3 +1,8 @@
+// ------------------------------------
+// Date:2018/ 5/ 5
+// Problem:// / / c.cpp
+//
+// ------------------------------------
 
 #include <bits/stdc++.h>
 
@@ -24,49 +29,56 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 11;
+const int MAX_N = 55;
 
-int N, M;
-int e[MAX_N][MAX_N];
+int dx[4] = {-1, 1, 0, 0};
+int dy[4] = {0, 0, -1, 1};
+
+int H, W;
+string S[MAX_N];
+bool state[MAX_N][MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> M;
+  cin >> H >> W;
+  REP(i, H) {
+    cin >> S[i];
+  }
 
-  REP(i, N) {
-    fill_n(e[i], MAX_N, INF);
-    e[i][i] = 0;
-  }
-  
-  vector< int > a(M);
-  vector< int > b(M);
-  REP(i, M) {
-    cin >> a[i] >> b[i];
-    a[i]--; b[i]--;
-    e[a[i]][b[i]] = e[b[i]][a[i]] = 1;
-  }
-  
-  REP(k, N) {
-    REP(i, N) {
-      REP(j, N) {
-	e[i][j] = min(e[i][j], e[i][k] + e[k][j]);
+  REP(hi, H) {
+    REP(wi, W) {
+      if (state[hi][wi]) continue;
+      if (S[hi][wi] == '#') {
+	bool ok = false;
+	REP(i, 4) {
+	  int y = hi + dy[i];
+	  int x = wi + dx[i];
+	  if (!(0 <= y && y < H and
+		0 <= x && x < W)) continue;
+
+	  if (S[y][x] == '#') {
+	    ok = true;
+	    state[hi][wi] = true;
+	    state[y][x] = true;
+	  }
+	}
       }
     }
   }
 
-  REP(i, N) {
-    int ans = 0;
-    REP(j, N) {
-      // if (i == j) continue;
-      if (e[i][j] == 2) ans++;
-      // debug(e[i][j]);
+  bool ok = true;
+  REP(hi, H) {
+    REP(wi, W) {
+      if (S[hi][wi] == '#' && !state[hi][wi]) {
+	ok = false;
+      }
     }
-    cout << ans << endl;
   }
-  
+
+  OK(ok);
 
   return 0;
 }

@@ -21,37 +21,57 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e5 + 1;
+const int MAX_N = 1e2 + 1;
+const int MAX_A = 1e4 + 1;
 
-ll N, H, A, B, C, D, E;
+int N, A;
+bool dp[MAX_N][MAX_A];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
+  cin >> N >> A;
+  vector< int > a(N);
+  REP(i, N)
+    cin >> a[i];
 
-  ll current = H - N * E;
+  dp[0][0] = true;
+  
+  REP(i, N) {
+    REP(j, A + 1) {
+      dp[i + 1][j] |= dp[i][j];
+      if (j >= a[i]) dp[i + 1][j] |= dp[i][j - a[i]];
 
-  ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
-
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
+      /*
+      if (j + a[i] <= A) {
+	dp[i + 1][j + a[i]] |= dp[i][j];
+      }
+      */
+      /*
+      if (dp[i][j]) {
+	dp[i + 1][j] = true;
+	if (j + a[i] <= A)
+	  dp[i + 1][j + a[i]] = true;
+      }
+      */
     }
   }
+
+  bool ok = dp[N][A];
+
+  /*
+  REP(i, N + 1) {
+    if (dp[i][A]) ok = true;
+  }
+  */
+
+  OK(ok);
   
-  cout << ans << endl;
+  
 
   return 0;
 }

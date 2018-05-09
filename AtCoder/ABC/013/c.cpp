@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -32,25 +33,27 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> H >> A >> B >> C >> D >> E;
-
-  ll current = H - N * E;
-
   ll ans = LINF;
-  REP(i, N + 1) {
-    ll numerator = N * E - H - (ll)i * (E + D);
-    ll denominator = B + E;
-    ll j = (numerator / denominator) + 1;
-
-    if (numerator < 0) numerator = 0;
-    // if (denominator == 0) break;
-    // if (0 <= numerator / denominator &&
-    // if (numerator / denominfator <= N - i) {
-    if (j <= N - i){
-      ans = min(ans, A * i + C * j);
-    }
-  }
+  cin >> N >> H >> A >> B >> C >> D >> E;
   
+  REP(i, N + 1) {
+    ll denomitator = D + E;
+    ll numerator = N * E -(ll)i * (E + B) - H;
+    ll j = numerator / denomitator;
+    if (j < 0) j = 0ll;
+    
+    while(H + B * i + D * j - E * (N - i - j) <= 0) j++;
+    ans = min(ans, A * i + C * j);
+
+    /*
+    
+    debug(B * i);
+    debug(D * j);
+    debug(-E * (N - i - j));
+    cout << endl;
+    */
+  }
+
   cout << ans << endl;
 
   return 0;
