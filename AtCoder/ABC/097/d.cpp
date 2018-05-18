@@ -23,61 +23,50 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_M = 575;
-const int MAX_N = 77;
-
-int dp[MAX_N][MAX_M][MAX_M];
-// int dpB[MAX_N][MAX_N * MAX_C];
-
-int N, A, B;
+const int MAX_N = 1e5 + 1;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> A >> B;
-  vector< int > a(N), b(N), c(N);
-  REP(i, N)
-    cin >> a[i] >> b[i] >> c[i];
+  SCIN(s);
+  CIN(K);
 
-  REP(i, MAX_N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	dp[i][j][k] = INF;
-      }
+  set< string > d;
+  REP(i, s.size()) {
+    REP(j, 5) {
+      string tmp = s.substr(i, j + 1);
+      d.erase(tmp);
+      d.insert(tmp);
     }
   }
 
-  REP(i, MAX_N) {
-    dp[i][0][0] = 0;
-  }
- 
-  REP(i, N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	// 入れる時
-	dp[i + 1][j + a[i]][k + b[i]] = min(dp[i + 1][j + a[i]][k + b[i]],
-					    dp[i][j][k] + c[i]);
-	// 入れない時
-	dp[i + 1][j][k] = min(dp[i + 1][j][k], dp[i][j][k]);
-      }
-    }
-  }
+  // string ans = *(d.begin() + d.size() - K + 1);
 
-  int ans = INF;
+  auto itr = d.begin();
+  // cout << *(d.begin() + (auto)K - 1) << endl;
 
-  FOR(i, 1, MAX_M) {
-    int ai = A * i;
-    int bi = B * i;
-    if (max(ai, bi) >= MAX_M) break;
-    ans = min(ans, dp[N][ai][bi]);
+  
+  REP(i, K - 1) {
+    itr++;
+    // debug(*itr);
   }
-  if (ans == INF) ans = -1;
+  
+  string ans = *itr;
+
+  
+  /*
+  for (auto itr = d.begin(); itr != d.end() - K + 1; ++itr) {
+    ans = *itr;
+  }
+  */
+  
+
   cout << ans << endl;
+  
 
-  
-  
   return 0;
 }
+
 

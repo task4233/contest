@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -23,61 +24,36 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_M = 575;
-const int MAX_N = 77;
-
-int dp[MAX_N][MAX_M][MAX_M];
-// int dpB[MAX_N][MAX_N * MAX_C];
-
-int N, A, B;
+const int MAX_N = 1e5 + 1;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> A >> B;
-  vector< int > a(N), b(N), c(N);
-  REP(i, N)
-    cin >> a[i] >> b[i] >> c[i];
+  LCIN(X);
 
-  REP(i, MAX_N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	dp[i][j][k] = INF;
-      }
+  if (X == 1) {
+    cout << 1 << endl;
+    return 0;
+  }
+
+  ll ans = 0ll;
+  
+  FOR(i, 1, 1001) {
+    ll tmp = (ll)i;
+    FOR(j, 2, 1001) {
+      tmp *= (ll)i;
+      if (tmp > X) break;
+      ans = max(ans, tmp);
+      // debug(i);
+      // debug(j);
+      // debug(tmp);
     }
   }
 
-  REP(i, MAX_N) {
-    dp[i][0][0] = 0;
-  }
- 
-  REP(i, N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	// 入れる時
-	dp[i + 1][j + a[i]][k + b[i]] = min(dp[i + 1][j + a[i]][k + b[i]],
-					    dp[i][j][k] + c[i]);
-	// 入れない時
-	dp[i + 1][j][k] = min(dp[i + 1][j][k], dp[i][j][k]);
-      }
-    }
-  }
-
-  int ans = INF;
-
-  FOR(i, 1, MAX_M) {
-    int ai = A * i;
-    int bi = B * i;
-    if (max(ai, bi) >= MAX_M) break;
-    ans = min(ans, dp[N][ai][bi]);
-  }
-  if (ans == INF) ans = -1;
   cout << ans << endl;
 
-  
-  
   return 0;
 }
 

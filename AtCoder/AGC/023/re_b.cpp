@@ -23,61 +23,44 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_M = 575;
-const int MAX_N = 77;
+// O(N^3)くらいまでなら許す
+const int MAX_N = 3e2 + 1;
 
-int dp[MAX_N][MAX_M][MAX_M];
-// int dpB[MAX_N][MAX_N * MAX_C];
-
-int N, A, B;
+int N;
+string S[MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> A >> B;
-  vector< int > a(N), b(N), c(N);
-  REP(i, N)
-    cin >> a[i] >> b[i] >> c[i];
-
-  REP(i, MAX_N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	dp[i][j][k] = INF;
-      }
-    }
-  }
-
-  REP(i, MAX_N) {
-    dp[i][0][0] = 0;
-  }
- 
+  cin >> N;
   REP(i, N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	// 入れる時
-	dp[i + 1][j + a[i]][k + b[i]] = min(dp[i + 1][j + a[i]][k + b[i]],
-					    dp[i][j][k] + c[i]);
-	// 入れない時
-	dp[i + 1][j][k] = min(dp[i + 1][j][k], dp[i][j][k]);
+    cin >> S[i];
+  }
+    
+  ll ans = 0ll;
+  
+  REP(i, N) {
+    vector< string > tmp(N);
+    REP(j, N) {
+      tmp[j] = S[j].substr(i + 1) + S[j].substr(0, i + 1);
+    }
+
+    bool ok = true;
+    REP(hi, N) {
+      REP(wi, N) {
+	if (tmp[hi][wi] != tmp[wi][hi]) {
+	  ok = false;
+	}
       }
     }
+    if (ok) ans += N;
+    // debug(ans);
   }
 
-  int ans = INF;
-
-  FOR(i, 1, MAX_M) {
-    int ai = A * i;
-    int bi = B * i;
-    if (max(ai, bi) >= MAX_M) break;
-    ans = min(ans, dp[N][ai][bi]);
-  }
-  if (ans == INF) ans = -1;
   cout << ans << endl;
 
-  
-  
   return 0;
 }
 

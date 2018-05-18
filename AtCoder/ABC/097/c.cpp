@@ -23,61 +23,77 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_M = 575;
-const int MAX_N = 77;
+const int MAX_N = 1e5 + 1;
 
-int dp[MAX_N][MAX_M][MAX_M];
-// int dpB[MAX_N][MAX_N * MAX_C];
+int N, M;
 
-int N, A, B;
+struct UnionFind {
+  vector< int > par;
+  UnionFind(int n = 1) {
+    init(n);
+  }
+
+  void init(int n) {
+    par.resize(n);
+    for(int i = 0; i < n; i++)
+      par[i] = -1;
+  }
+  
+  int root(int n) {
+    if (par[n] < 0) return n;
+    return par[n] = root(par[n]);
+  }
+
+  bool unite(int x, int y) {
+    x = root(x); y = root(y);
+    if (x == y) return false;
+    if (par[x] > par[y]) swap(x, y);
+    par[x] += par[y];
+    par[y] = x;
+
+    return true;
+  }
+};
+
+ll cnt[MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
-
-  cin >> N >> A >> B;
-  vector< int > a(N), b(N), c(N);
-  REP(i, N)
-    cin >> a[i] >> b[i] >> c[i];
-
-  REP(i, MAX_N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	dp[i][j][k] = INF;
-      }
-    }
-  }
-
-  REP(i, MAX_N) {
-    dp[i][0][0] = 0;
-  }
- 
+  
+  cin >> N >> M;
+  vector< int > p(N);
   REP(i, N) {
-    REP(j, MAX_M) {
-      REP(k, MAX_M) {
-	// 入れる時
-	dp[i + 1][j + a[i]][k + b[i]] = min(dp[i + 1][j + a[i]][k + b[i]],
-					    dp[i][j][k] + c[i]);
-	// 入れない時
-	dp[i + 1][j][k] = min(dp[i + 1][j][k], dp[i][j][k]);
-      }
-    }
+    cin >> p[i];
+    p[i]--;
   }
 
-  int ans = INF;
+  UnionFind uf(N);
 
-  FOR(i, 1, MAX_M) {
-    int ai = A * i;
-    int bi = B * i;
-    if (max(ai, bi) >= MAX_M) break;
-    ans = min(ans, dp[N][ai][bi]);
+  fill_n(cnt, MAX_N, -INF);
+  ll tmp = 0ll;
+  REP(i, M) {
+    CIN(x, y);
+    x--; y--;
+    uf.unite(x, y);
   }
-  if (ans == INF) ans = -1;
+
+  ll ans = 0ll;
+
+  REP(i, N) {
+    if (uf.root(i) == uf.root(p[i]))
+      ans++;
+  }
+  
   cout << ans << endl;
 
-  
-  
+  /*
+  REP(i, N + 1) {
+    debug(cnt[i]);
+  }
+  */
+
   return 0;
 }
 
