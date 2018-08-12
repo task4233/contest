@@ -30,22 +30,23 @@ string S;
 // 0:a 1:b 2:c 3:?
 ll d[MAX_N][4];
 
-ll fact[MAX_N];
+ll power(ll p, ll q) {
+  ll res = 1ll;
+  while (q > 0) {
+    if ((q & 1) == 1) {
+      (res *= p) %= MOD;
+    }
+    (p *= p) %= MOD;
+    q >>= 1;
+  }
+  return res % MOD;
+}
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  fact[1] = 1ll;
-  REP(i, MAX_N - 2) {
-    (fact[i + 2] += fact[i + 1]) %= MOD;
-    (fact[i + 2] += fact[i + 1]) %= MOD;
-    (fact[i + 2] += fact[i + 1]) %= MOD;
-  }
-
-  debug(fact[3]);
-  debug(fact[4]);
   
   cin >> S;
   REP(si, S.size()) {
@@ -73,31 +74,32 @@ int main()
 
   ll ans = 0ll;
   FOR(si, 1, S.size() - 1) {
-    ll pa = d[si][0];
-    ll pc = d[si - 1][3];
-    ll qa = d[S.size() - 1][2] - d[si][2];
-    ll qc = d[S.size() - 1][3] - d[si][3];
+    // 左のA
+    ll la = d[si - 1][0];
+    // 左の?
+    ll lq = d[si - 1][3];
+    // 右のC
+    ll rc = d[S.size()][2] - d[si][2];
+    // 右の?
+    ll rq = d[S.size()][3] - d[si][3];
+    // debug(la);
+    // debug(lq);
+    // debug(rc);
+    // debug(rq);
     if (S[si] == 'B' || S[si] == '?') {
-      
-      ans += (pa + fact[pc]) * (qa + fact[qc]);
-      ans %= MOD;
-      debug(ans);
-      ans += fact[pc - 1]  * (qa + fact[qc]) + 1;
-      ans %= MOD;
-      debug(ans);
-      ans += (pa + fact[pc]) * fact[qc - 1] + 1;
-      ans %= MOD;
-      // ans -= pa * qa;
-      debug(ans);
-      ans += fact[(pc + qc)] - 2;
-      // ans %= MOD;
-      // +(d[si][0] + d[si - 1][3]) * (d[S.size() - 1][2] - d[si][2] + d[S.size() - 1][3] - d[si][3]);
-    } //else if (S[si] == '?') {
-      //ans += (d[si][0] + d[si - 1][3]) * (d[S.size() - 1][2] - d[si][2] + d[S.size() - 1][3] - d[si][3]);
-    // }
+      // ABC
+      (ans += la * rc * power(3ll, (lq + rq))) %= MOD;
+      // AB?
+      // powerの-1は,rqで?を一つ使っているから
+      (ans += la * rq * power(3ll, (lq + rq - 1))) %= MOD; 
+      // ?BC(同上)
+      (ans += lq * rc * power(3ll, (lq + rq - 1))) %= MOD;
+      // ?B?(同上)
+      (ans += lq * rq * power(3ll, (lq + rq - 2))) %= MOD;
+    }
     ans %= MOD;
-    debug(si);
-    debug(ans);
+    // debug(si);
+    // debug(ans);
   }
 
   cout << ans << endl;
