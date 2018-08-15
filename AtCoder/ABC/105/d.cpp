@@ -30,8 +30,29 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
+  CIN(N, M);
+  vector< int > A(N);
+  vector< int > sm(N + 1, 0);
+  REP(i, N) {
+    cin >> A[i];
+    sm[i + 1] = (sm[i] + A[i]) % M;
+  }
   
+  map< int, int > mp;
+  ll ans = 0ll;
+  
+  REP(i, N + 1) {
+    ans += mp[sm[i]];
+    mp[sm[i]]++;
+  }
+  cout << ans << endl;
 
+  /*
+  EACH(mi, mp) {
+    cout << mi.second << endl;
+  }
+  */
+  
   return 0;
 }
 

@@ -30,7 +30,21 @@ int main()
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  
+  CIN(N);
+  vector< int > A(N);
+  vector< int > sm(N + 1);
+  REP(i, N) {
+    cin >> A[i];
+    sm[i] = A[i];
+  }
+  REP(i, N) {
+    sm[i + 1] += sm[i];
+  }
+
+  REP(i, N) {
+    // 切れ目をiとi+1の間とする
+    
+  }
 
   return 0;
 }

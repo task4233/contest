@@ -23,37 +23,63 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e6 + 1;
+const int MAX_N = 1e5 + 1;
 
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
+template< class Abel > class BIT {
+public:
+  BIT(int _n)
+    : N(_n) {
+    init(_n);
+  }
+
+  void init(int _n) {
+    bit.resize(_n + 1);
+  }
+  
+  Abel sum(int i) {
+    Abel s = 0;
+    while (i > 0) {
+      s += bit[i];
+      // iの最後の1ビットを求めるときはi & -1
+      i -= i & -i;
+    }
+    return s;
+  }
+
+  void add(int i, Abel x) {
+    while (i <= N) {
+      bit[i] += x;
+      i += i & -i;
+    }
+  }
+
+  Abel getSum(int _x, int _y) {
+    return sum(_y) - sum(_x - 1);
+  }
+  
+private:
+  int N;
+  vector< Abel > bit;
+};
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< double > t(N);
-  vector< double > v(N);
+  CIN(N, Q);
+  BIT< ll > bit(N);
 
-  REP(i, N) {
-    cin >> t[i];
+  REP(qi, Q) {
+    CIN(c, _x, _y);
+    if (c == 0) {
+      // add
+      bit.add(_x, _y);
+    } else {
+      // sum
+      cout << bit.getSum(_x, _y) << endl;
+    }
   }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
-
-  }
-  
-  
-  
 
   return 0;
 }

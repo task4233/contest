@@ -25,34 +25,52 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e6 + 1;
 
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
+ll fact[MAX_N];
+
+ll power(ll x, ll n) {
+  ll res = 1ll;
+  while (n > 0) {
+    if (n & 1) {
+      (res *= x) %= MOD;
+    }
+    (x *= x) %= MOD;
+    n >>= 1;
+  }
+  return res % MOD;
+}
+
+ll inverse(ll n) {
+  return power(n, MOD - 2);
+}
+
+ll nCr(ll n, ll r) {
+  return ((fact[n] * inverse(fact[n - r])) % MOD * inverse(fact[r])) % MOD;
+}
+
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< double > t(N);
-  vector< double > v(N);
+  CIN(H, W, A, B);
 
-  REP(i, N) {
-    cin >> t[i];
-  }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
-
+  fact[0] = 1ll;
+  FOR(i, 1, MAX_N) {
+    fact[i] = (fact[i - 1] * i) % MOD;
   }
   
-  
+  ll ans = 0ll;
+  REP(hi, H - A) {
+    ans += nCr(B + hi - 1, hi) * nCr(W - B + H - hi - 2, H - hi - 1);
+    debug(W + H - B - hi - 2);
+    debug(W - B - 1);
+    debug(ans);
+    cout << endl;
+    ans %= MOD;
+  }
+
+  cout << ans << endl;
   
 
   return 0;

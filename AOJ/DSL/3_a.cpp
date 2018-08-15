@@ -21,38 +21,48 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const int INF = 1e9 + 1;
+const ll LINF = 1e18 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e6 + 1;
-
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
+const int MAX_N = 1e5 + 1;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< double > t(N);
-  vector< double > v(N);
-
+  LCIN(N, S);
+  vector< int > a(N);
   REP(i, N) {
-    cin >> t[i];
+    cin >> a[i];
   }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
 
+  int ub = 0;
+  ll ans = LINF;
+  ll sm = 0ll;
+  REP(lb, N) {
+    while (ub < N) {
+      if (sm + a[ub] >= S) {
+	break;
+      }
+      sm += a[ub++];
+    }
+    if (ub == N) break;
+    if (sm + a[ub] >= S) {
+      ans = min(ans, (ub >= N ? N - 1 : ub) - lb + 1ll);
+    }
+
+    /*
+    debug(lb);
+    debug(ub);
+    debug(sm);
+    debug(ans);
+    */
+    sm -= a[lb];
+    // cout << endl;
   }
-  
-  
+  if (ans == LINF) ans = 0;
+  cout << ans << endl;
+
   
 
   return 0;

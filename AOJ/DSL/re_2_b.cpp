@@ -25,15 +25,60 @@ const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
-int main(int argc, char** argv)
+
+template< class Abel > class BIT {
+public:
+  BIT(int _n) : N(_n) { init(); }
+
+  void init() {
+    // [1, N]の範囲なので、+1する必要がある
+    bit.clear();
+    bit.resize(N + 1, 0);
+  }
+
+  void add(int i, Abel x) {
+    while (i <= N) {
+      bit[i] += x;
+      i += i & -i;
+    }
+  }
+
+  Abel sum(int i) {
+    Abel sm = 0;
+    while (i > 0) {
+      sm += bit[i];
+      i -= i & -i;
+    }
+    return sm;
+  }
+
+  Abel getSum(int _x, int _y) {
+    return sum(_y) - sum(_x - 1);
+  }
+
+private:
+  int N;
+  vector< Abel > bit;
+};
+
+int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  if (argc > 0) {
-    cout << argv[1] << endl;
+  CIN(N, Q);
+  BIT< ll > bit(N);
+
+  REP(qi, Q) {
+    LCIN(c, _x, _y);
+    if (c == 0) {
+      // add
+      bit.add(_x, _y);
+    } else {
+      // getSum
+      cout << bit.getSum(_x, _y) << endl; 
+    }
   }
 
   return 0;
 }
-

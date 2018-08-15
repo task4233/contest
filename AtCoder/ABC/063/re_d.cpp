@@ -23,36 +23,28 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e6 + 1;
-
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
+const int MAX_N = 1e5 + 1;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< double > t(N);
-  vector< double > v(N);
-
+  CIN(N, A, B);
+  vector< ll > h(N);
   REP(i, N) {
-    cin >> t[i];
+    cin >> h[i];
   }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
 
+  ll lb = 0ll;
+  ll ub = INF;
+  while (abs(ub - lb) > 1) {
+    ll mid = (lb + ub) / 2;
+    if (check(mid)) ub = mid;
+    else lb = mid;
   }
-  
-  
+  ll ans = ub;
+  cout << ans << endl;
   
 
   return 0;

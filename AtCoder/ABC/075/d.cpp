@@ -23,38 +23,59 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e6 + 1;
-
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
+const int MAX_N = 1e5 + 1;
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< double > t(N);
-  vector< double > v(N);
+  CIN(N, K);
 
+  vector< ll > x(N);
+  vector< ll > y(N);
   REP(i, N) {
-    cin >> t[i];
+    cin >> x[i] >> y[i];
   }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
 
+  vector< ll > sortX(x);
+  vector< ll > sortY(y);
+  sort(ALL(sortX));
+  sort(ALL(sortY));
+
+  ll ans = (sortX.back() - sortX[0]) * (sortY.back() - sortY[0]);
+
+  REP(xi, N) {
+    REP(yi, N) {
+      FOR(xj, xi, N) {
+	FOR(yj, yi, N) {
+
+	  ll minX = sortX[xi];
+	  ll minY = sortY[yi];
+	  ll maxX = sortX[xj];
+	  ll maxY = sortY[yj];
+
+	  int cnt = 0;
+	  // ここから範囲内全探索
+	  REP(i, N) {
+	    if (minX <= x[i] && x[i] <= maxX &&
+		minY <= y[i] && y[i] <= maxY) {
+	      cnt++;
+	    }
+	  }
+
+	  if (cnt >= K) {
+	    ans = min(ans, (maxX - minX) * (maxY - minY));
+	  }
+	  
+	}
+      }
+    }
   }
-  
-  
-  
 
+  cout << ans << endl;
+  
   return 0;
 }
+
 

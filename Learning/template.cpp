@@ -55,6 +55,11 @@ int main()
   SCIN(SM, SN);
   cout << SM << endl;
   cout << SN << endl;
+
+  vector< int > v(MAX_N);
+  cout << sizeof(M) << endl;
+  cout << sizeof(LN) << endl;
+  cout << sizeof(SN) << endl;
   
   return 0;
 }

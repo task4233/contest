@@ -23,38 +23,59 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 1e6 + 1;
+const int MAX_N = 1e5 + 1;
 
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
+bool b[8][8];
+
+int dx[4] = {1, -1, -1, 1};
+int dy[4] = {1, 1, -1, -1};
+
+int check(int hi, int wi, int ret) {
+  int nextX;
+  // 縦
+  REP(i, 4) {
+    
+  }
+}
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N;
-  vector< double > t(N);
-  vector< double > v(N);
-
-  REP(i, N) {
-    cin >> t[i];
+  REP(hi, 8) {
+    REP(wi, 8) {
+      char ch;
+      scanf("%c", &ch);
+      b[hi][wi] &= (ch == 'Q');
+    }
   }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
 
+  bool ok = true;
+  REP(hi, 8) {
+    REP(wi, 8) {
+      if (c[hi][wi]) {
+	int ret = check(hi, wi, 0);
+	ok &= (ret > 1);
+	if (ret == 0) {
+	  c[hi][wi] = true;
+	}
+      }
+    }
+  }
+
+  if (!ok) {
+    cout << "No Answer" << endl;
+    return 0;
+  }
+
+  REP(hi, 8) {
+    REP(wi, 8) {
+      cout << c[hi][wi] ? "Q" : ".";
+    }
+    cout << endl;
   }
   
-  
-  
-
   return 0;
 }
 
