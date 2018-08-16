@@ -2,58 +2,67 @@
 
 using namespace std;
 
-#define EACH(i,a) for (auto& i : a)
 #define FOR(i,a,b) for(int i=(int)a;i<(int)b;++i)
 #define RFOR(i,a,b) for(int i=(int)b-1;i>=(int)a;--i)
 #define REP(i,n) FOR(i,0,n)
 #define RREP(i,n) RFOR(i,0,n)
-#define ALL(a) (a).begin(),(a).end()
-#define debug(x) cerr << #x << ":" << x << endl;
-#define OK(ok) cout << (ok ? "Yes" : "No") << endl;
-typedef long long ll;
-
-void CINT(){}
-template <class Head,class... Tail>
-void CINT(Head&& head,Tail&&... tail) {
-  cin >> head; CINT(move(tail)...);
-}
-#define CIN(...) int __VA_ARGS__;CINT(__VA_ARGS__)
-#define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
-#define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
 const int INF = 1e9 + 1;
-const int MOD = 1e9 + 7;
-const int MAX_N = 1e6 + 1;
-
-int N;
-// timeTable[2t(s)][3]
-double timeTable[MAX_N][3];
 
 int main()
 {
-  cin.tie(0);
-  ios::sync_with_stdio(false);
-
-  cin >> N;
+  int N;
+  scanf("%d", &N);
   vector< double > t(N);
   vector< double > v(N);
-
   REP(i, N) {
-    cin >> t[i];
+    scanf("%lf", &t[i]);
   }
-  REP(i, N)
-    cin >> v[i];
-  
-  REP(i, 2 * N) {
-    timeTable[i + 1][0] = timeTable[i][0] + 0.5;
-    timeTable[i + 1][1] = timeTable[i][1];
-    timeTable[i + 1][2] = timeTable[i][2] - 0.5;
-    
+  REP(i, N) {
+    scanf("%lf", &v[i]);
+  }
 
+  // 全体のT秒を求める
+  int T = 0;
+  REP(i, N) {
+    T += t[i];
   }
   
+  vector< double > maxV(2 * T + 1, (double)INF);
+
+  // maxのスピードをv[i]で初期化
+  int nowT = 0;
+  REP(i, N) {
+    REP(ti, t[i]) {
+      int t1 = nowT + ti * 2;
+      int t2 = nowT + ti * 2 + 1;
+      maxV[t1] = min(maxV[t1], v[i]);
+      maxV[t2] = min(maxV[t2], v[i]);
+    }
+    nowT += t[i] * 2;
+    maxV[nowT] = min(maxV[nowT], v[i]);
+  }
+
+  // 0秒とT秒は0(静止)
+  maxV[0] = maxV[T * 2] = 0.0;
   
+  // 前から比較
+  REP(ti, 2 * T + 1) {
+    maxV[ti + 1] = min(maxV[ti + 1], maxV[ti] + 0.5);
+  } 
   
+  // 後ろから比較
+  RREP(ti, 2 * T + 1) {
+    maxV[ti] = min(maxV[ti], maxV[ti + 1] + 0.5);
+  }
+  
+  double ans = 0.0;
+  REP(i, 2 * T + 1) {
+    // (上底 + 下底) * 高さ / 2
+    ans += (maxV[i] + maxV[i + 1]) * 0.5 / 2.0;
+  }
+
+  printf("%.4f\n", ans);
 
   return 0;
 }
