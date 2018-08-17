@@ -1,4 +1,4 @@
-# AGC004-D : Colorful Slimes
+# AGC004-B : Colorful Slimes
 ## 問題文
 N色のスライムが存在する。  
 最初は1匹もスライムを飼っていない。  
