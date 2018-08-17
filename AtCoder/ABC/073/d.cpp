@@ -1,9 +1,3 @@
-// ------------------------------------
-// Date:2018/ 4/ 3
-// Problem:D- joisino's travel d.cpp
-//
-// ------------------------------------
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -29,85 +23,47 @@ void CINT(Head&& head,Tail&&... tail) {
 
 const int INF = 1e9 + 1;
 const int MOD = 1e9 + 7;
-const int MAX_N = 201;
+const int MAX_N = 575;
 
-int N, M, R;
-
-int e[MAX_N][MAX_N];
+// dp[みてるとこ][重さ]
+ll dp[MAX_N][MAX_N * MAX_N];
 
 int main()
 {
   cin.tie(0);
   ios::sync_with_stdio(false);
 
-  cin >> N >> M >> R;
-
+  CIN(N, W);
+  vector< int > w(N);
+  vector< int > v(N);
+  vector< int > diff(N);
   REP(i, N) {
-    REP(j, N) {
-      if (i == j) e[i][j] = 0;
-      else e[i][j] = INF;
-    }
+    cin >> w[i] >> v[i];
   }
-  
-  vector< int > r(R);
-  REP(i, R) {
-    cin >> r[i];
-    r[i]--;
-  }
-  sort(ALL(r));
-
-  bool f, t;
-  REP(i, M) {
-    CIN(a, b, c);
-    a--; b--;
-    /*
-    EACH(ri, r) {
-      if (ri == a) f = true;
-      if (ri == b) t = true;
-    }
-    if (!(f && t)) continue; 
-    */
-    e[a][b] = c;
-    e[b][a] = c;
-  }
-
- 
-  REP(k, N) {
-    REP(i, N) {
-      REP(j, N) {
-	e[i][j] = min(e[i][j], e[i][k] + e[k][j]);
-      }
-    }
-  }
-
-  int ans = INF;
-  /*
   REP(i, N) {
-    REP(j, N) {
-      ans = max(ans, e[i][j]);
+    diff[i] = w[i] - w[0];
+  }
+
+  ll diff;
+  RREP(i, N) {
+    RREP(j, N) {
+      dp[i + 1][j + diff[i]] = max(dp[i + 1][j + diff[i]],
+				   dp[i][j] + v[i]);
     }
   }
-  */
-  do {
-    int tmp = 0;
-    REP(i, r.size() - 1) {
-      tmp += e[r[i + 1]][r[i]];
+
+  ll ans = 0ll;
+  W -= w[0];
+  REP(i, N + 1) {
+    REP(j, N) {
+      debug(dp[i][W * i + j]);
+      ans = max(ans, dp[i][W * i + j]);
     }
-    ans = min(ans, tmp);
-  } while(next_permutation(ALL(r)));
-  
+  }
+
   cout << ans << endl;
+  
 
-  /*
-  REP(i, N) {
-    REP(j, N) {
-      cout << e[i][j];
-      if (j != N - 1) cout << " ";
-    }
-    cout << endl;
-  }
-  */
-    
   return 0;
 }
 
