@@ -1,5 +1,6 @@
 # AGC004-B : Colorful Slimes
 ## 問題文
+https://beta.atcoder.jp/contests/agc004/tasks/agc004_b
 N色のスライムが存在する。  
 最初は1匹もスライムを飼っていない。  
 以下の操作を行い、N種全てのスライムを集めることが最終目標。  
