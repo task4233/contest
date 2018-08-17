@@ -20,7 +20,7 @@ https://beta.atcoder.jp/contests/arc081/tasks/arc081_b
 ## 考え方
 場合分けをして考える。  
 以下の画像のように場合分けができる。  
-![場合分け]("./abc071_d.jpg", "場合分け")  
+![場合分け](https://github.com/task4233/contest/blob/master/AtCoder/ABC/071/abc071_d.jpg, "場合分け")  
 
 まず、画像の上側を説明すると、  
 
