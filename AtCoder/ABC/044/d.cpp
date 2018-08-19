@@ -19,7 +19,7 @@ void CINT(Head&& head,Tail&&... tail) {
 #define LCIN(...) ll __VA_ARGS__;CINT(__VA_ARGS__)
 #define SCIN(...) string __VA_ARGS__;CINT(__VA_ARGS__)
 
-const ll LINF = 1e18 + 1;
+gconst ll LINF = 1e18 + 1;
 const int MOD = 1e9 + 7;
 const int MAX_N = 1e5 + 1;
 
