@@ -35,7 +35,6 @@ int main()
   REP(i, w.size()) {
     mp[w[i]]++;
   }
-
   bool ok = true;
   EACH(i, mp) {
     ok &= (i.second % 2 == 0);
