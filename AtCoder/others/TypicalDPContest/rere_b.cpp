@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+// statics
+using namespace std;
+using int64 = int_fast64_t;
+using PAIR = pair<int64, int64>;
+constexpr int INF = 1 << 30;
+constexpr int64 LINF = 1LL << 60;
+constexpr int MOD = 1e9 + 7;
+constexpr int MAX_N = 1e5 + 1;
+
+// init/input
+#define int int64
+#define INIT ios::sync_with_stdio(false);cin.tie(0);
+#define VAR(type, ...) type __VA_ARGS__;MACRO_VAR_Scan(__VA_ARGS__);
+template<typename T> void MACRO_VAR_Scan(T &t) {cin>>t;}
+template<typename First, typename...Rest> void MACRO_VAR_Scan(First &first, Rest&...rest) {cin>>first;MACRO_VAR_Scan(rest...);}
+#define VEC(type, c, n) vector<type> c(n);for(auto &&i:c)cin>>i;
+
+// out
+#define OUT(dist) cout<<(dist);
+#define FOUT(n, dist) cout<<fixed<<setprecision(n)<<(dist);
+#define SP cout<<" ";
+#define BR cout<<endl;
+#define zero(n) cout<<setfill('0')<<right<<setw(n)
+#define debug(x) cerr<<#x<<":"<< (x);BR;
+
+// utility
+#define ALL(a) (a).begin(), (a).end()
+#define EACH(i, a) for(auto &&i:(a))
+#define FOR(i, a, b) for(int i=(a);i<(b);++i)
+#define RFOR(i, a, b) for(int i=(b)-1;i>=0;--i)
+#define REP(i, n) for(int i=0;i<(n);++i)
+#define RREP(i, n) for(int i=(n)-1;i>=0;--i)
+
+// dp[aの残り個数][bの残り個数]aの最高得点
+int dp[1010][1010];
+
+signed main() {
+  INIT;
+
+	VAR(int, A, B);
+	VEC(int, a, A);
+	VEC(int, b, B);
+
+	
+	RREP(i, A) {
+		RREP(j, B) {
+			if ((i + j) % 2 != (A + B) % 2) {
+				// aの手番
+				dp[i][j] = max(dp[i+1][j] + a[i], dp[i][j+1] + b[j]);
+			} else {
+				// bの手番
+				dp[i][j] = min(dp[i+1][j], dp[i][j+1]);
+			}
+		}
+	}
+
+	int ans = dp[0][0];
+	OUT(ans)BR;
+
+	REP(i, A + 1) {
+		REP(j, B + 1) {
+			OUT(dp[i][j])SP;
+		}
+		BR;
+	}
+  
+  return 0;
+}

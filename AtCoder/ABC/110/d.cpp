@@ -6,7 +6,7 @@ using PAIR = pair<int, int>;
 constexpr int INF = 1 << 30;
 constexpr int64 LINF = 1LL << 60;
 constexpr int MOD = 1e9 + 7;
-constexpr int MAX_N = 1e5 + 1;
+constexpr int MAX_N = 3e5 + 1;
 
 // init/input
 #define int int64
@@ -20,7 +20,7 @@ template<typename First, typename...Rest> void MACRO_VAR_Scan(First &first, Rest
 #define OUT(dist) cout<<(dist);
 #define FOUT(n, dist) cout<<fixed<<setprecision(n)<<(dist);
 #define SP cout<<" ";
-#define BR cout<<"\n";
+#define BR cout<<endl;
 #define debug(x) cerr<<#x<<":"<< (x);BR;
 
 // utility
@@ -86,18 +86,25 @@ signed main() {
 		ifact[i] = inv(fact[i]);
 	}
 
-	vector< int > d;
-	FOR(i, 2, sqrt(m) + 1) {
+	map< int, int > mp;
+  for (int i=2; i*i <= n; ++i) {
 		if (!e.prime[i]) continue;
 		while (m > 0 && m % i == 0) {
-			d.push_back(i);
+			mp[i]++;
 			m /= i;
 		}
 	}
 	
-	if (m > 0) d.push_back(m);
+	if (m > 1) mp[m]++;
 	
-	int ans = nCr(max(d.size(), n), n);
+	int ans = 1LL;
+	EACH(mi, mp) {
+		// debug(mi.first);
+		// debug(mi.second);
+		int tmp = nCr(n-1+mi.second, n-1);
+		ans = (ans * tmp) % MOD;
+	}
+	OUT(ans)BR;
 	
   return 0;
 }
