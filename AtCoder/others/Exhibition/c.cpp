@@ -35,13 +35,13 @@ template<typename First, typename...Rest> void MACRO_VAR_Scan(First &first, Rest
 signed main() {
   INIT;
 	VAR(string,n);
-	int odd=0,even=0;
+	int o=0,e=0;
 	REP(i,n.size()){
-		if(i%2==0)odd+=n[n.size()-i-1]-'0';
-		else  even+=n[n.size()-i-1]-'0';
+		if(i%2==0)o+=n[n.size()-i-1]-'0';
+		else  e+=n[n.size()-i-1]-'0';
 	}
 
-	int ans=odd-even;
+	int ans=o-e;
 	ans = (ans%11+11)%11;
 	OUT(ans)BR;
   

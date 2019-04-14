@@ -34,7 +34,12 @@ template<typename First, typename...Rest> void MACRO_VAR_Scan(First &first, Rest
 
 signed main() {
   INIT;
-	
+	VAR(string,s);
+	vector<string>ans;
+	REP(i,s.size()){
+		OUT(i+1)BR;
+		//ans.push_back(s.substr(0,i+1));
+	}
   
   return 0;
 }
