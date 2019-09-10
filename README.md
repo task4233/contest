@@ -9,10 +9,6 @@ Submitted Codes of contests such as Competitive Programming, CTF, and kinds of c
 Code storage.
 The codes are saperated into directories for each contests.
 
-## Features
-
-- my codes
-
 ## Requirement
 
 ```
