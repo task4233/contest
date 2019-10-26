@@ -1,0 +1,20 @@
+1: Public contents
+2: Login
+3: Exit
+Welcome to public directory
+You can download contents in this directory
+diary_4.txt
+diary_3.txt
+diary_1.txt
+login_source.c
+diary_2.txt
+./diary_2.txt
+Sending 274 bytesSecond Post
+
+Hey guys! It's me, oh, I haven't told you my name yet.
+My name is _H4CK3R_ ! I want to be a HACKER!
+
+In this weeks, I worked hard in my office, so, very tired.
+I can't study cybersecurity because I want to go to bed, anyway.
+
+I will do my best...tommorow. Bye.

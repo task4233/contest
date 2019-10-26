@@ -1,0 +1,18 @@
+1: Public contents
+2: Login
+3: Exit
+Welcome to public directory
+You can download contents in this directory
+diary_4.txt
+diary_3.txt
+diary_1.txt
+login_source.c
+diary_2.txt
+./diary_3.txt
+Sending 141 bytesThird
+
+Tired. Its also been a month since last post.
+There is nothing to tell. OK, I will release the source code.
+This is login func.
+
+Bye.
