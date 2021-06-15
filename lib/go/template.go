@@ -2,22 +2,19 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
-	"sort"
 	"strconv"
 )
 
-// errors
-var (
-	ScanErr = errors.New("failed Scan")
-)
+var sc = bufio.NewScanner(os.Stdin)
 
 // CLI manages given data
 type CLI struct {
 	n int
-	a []int
+	k int
+	s []int
+	p []int
 }
 
 // NewCLI generates a pointer to CLI struct
@@ -28,34 +25,38 @@ func NewCLI() *CLI {
 // Scan scans given data and assgin cli field
 // validation is also done in this function
 func (c *CLI) Scan() error {
-	sc := bufio.NewScanner(os.Stdin)
 	sc.Split(bufio.ScanWords)
 
-	if !sc.Scan() {
-		return ScanErr
-	}
-	var err error
-	if c.n, err = strconv.Atoi(sc.Text()); err != nil {
-		return fmt.Errorf("failed to Atoi: %w", err)
+	if _, err := fmt.Scanf("%d %d", &c.n, &c.k); err != nil {
+		return err
 	}
 
 	for idx := 0; idx < c.n; idx++ {
+		var tmp int
+		var err error
 		if !sc.Scan() {
 			return ScanErr
 		}
-		val, err := strconv.Atoi(sc.Text())
+		tmp, err = strconv.Atoi(sc.Text())
 		if err != nil {
 			return fmt.Errorf("failed to Atoi: %w", err)
 		}
+		c.s = append(c.s, tmp)
 
-		c.a = append(c.a, val)
+		if !sc.Scan() {
+			return ScanErr
+		}
+		tmp, err = strconv.Atoi(sc.Text())
+		if err != nil {
+			return fmt.Errorf("failed to Atoi: %w", err)
+		}
+		c.p = append(c.p, tmp)
 	}
-
 	return nil
 }
 
 // Solve solves given problem
 func (c *CLI) Solve() error {
-	
+
 	return nil
 }
