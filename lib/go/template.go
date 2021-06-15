@@ -22,6 +22,20 @@ func NewCLI() *CLI {
 	return &CLI{}
 }
 
+// ScanInt scans int variable
+func (c *CLI) ScanInt(val *int) error {
+	var err error
+
+	if !sc.Scan() {
+		return ScanErr
+	}
+	if *val, err = strconv.Atoi(sc.Text()); err != nil {
+		return fmt.Errorf("failed to Atoi: %w", err)
+	}
+
+	return nil
+}
+
 // Scan scans given data and assgin cli field
 // validation is also done in this function
 func (c *CLI) Scan() error {
