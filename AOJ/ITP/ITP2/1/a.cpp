@@ -1,24 +1,30 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-int main() {
-	int q;cin>>q;
-
+int main()
+{
 	vector<int> v;
-	while(q--){
-		int query;cin>>query;
-		if(query==0){
-			//pb
-			int x;cin>>x;
-			v.push_back(x);
-		}else if(query==1){
-			//random access
-			int p;cin>>p;
-			cout<<v[p]<<endl;
-		}else{
+
+	int q;
+	cin >> q;
+	while (q--)
+	{
+		int num;
+		cin >> num;
+		switch (num)
+		{
+		case 0:
+			cin >> num;
+			v.push_back(num);
+			break;
+		case 1:
+			cin >> num;
+			cout << v.at(num) << endl;
+			break;
+		case 2:
 			v.pop_back();
 		}
 	}
-	
-  return 0;
+	return 0;
 }
