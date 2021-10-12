@@ -2,12 +2,19 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
 )
 
-var sc = bufio.NewScanner(os.Stdin)
+var (
+	sc             = bufio.NewScanner(os.Stdin)
+	ScanErr        = errors.New("failed Scan")
+	zeroDivErr     = errors.New("zero devision")
+	nilErr         = errors.New("nil error")
+	negativeValErr = errors.New("value is negative")
+)
 
 // CLI manages given data
 type CLI struct {
