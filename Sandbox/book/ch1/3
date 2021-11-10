@@ -59,12 +59,11 @@ std::string replace_space(std::string words) {
 	std::string res = "";
 	unsigned int wi = 0;
 	while (wi < words.size()) {
-		if (words[wi] == ' ') {
+		if (words[wi++] == ' ') {
 			res += "%20";
 		} else {
-			res += words[wi];
+			res += words[wi++];
 		}
-		++wi;
 	}
 	std::cerr << "res" << res << std::endl;
 	return res;
