@@ -50,7 +50,7 @@ bool is_sorting_words(std::string a, std::string b) {
  * 文字列内に出現する全ての空白文字を%20で置換するメソッドを書け
  *
  * 前から走査するだけで良い
- * 時間計算量はO(len(words)), 空間計算量はO(N)
+ * 時間計算量はO(len(words)), 空間計算量はO(len(words))
  */
 
 #include <iostream>
@@ -66,6 +66,28 @@ std::string replace_space(std::string words) {
 		}
 		++wi;
 	}
-	std::cerr << "res" << res << std::endl;
 	return res;
+}
+
+/* 4
+ * 与えられた文字列が回文の順列になるか答えるメソッドを書け
+ *
+ * 前から出てきた回数をカウントして奇数の文字が2文字以上存在しないことを示せば良い
+ * 時間計算量はO(len(words))空間計算量はO(len(words))
+ *
+ */
+
+bool is_palindrome_permutation(std::string words) {
+	std::map<char, int> cnt;
+	for (unsigned int idx = 0; idx < words.size(); ++idx) {
+		cnt[words[idx]]++;
+	}
+
+	bool odd = false;
+	for (auto x : cnt) {
+		if (x.second % 2 == 0) continue;
+		if (odd) return false;
+		odd = true;
+	}
+	return true;
 }
