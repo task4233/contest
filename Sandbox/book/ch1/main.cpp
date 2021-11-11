@@ -91,3 +91,41 @@ bool is_palindrome_permutation(std::string words) {
 	}
 	return true;
 }
+
+/* 5
+* 文字の挿入、編集、削除、置き換え操作1回で文字列が作れるか
+* 前から1文字ずつみていき、変更点がどれだけあるかを確認する
+* 文字列をswapすると、挿入と削除は同じ操作
+* O(1)
+*/
+
+bool can_be_made(std::string before, std::string after) {
+	if (before.size() > after.size()) {
+		std::string tmp = before;
+		before = after; 
+		after = tmp;
+	}
+	unsigned int bi=0, ai=0;
+	bool done = false;
+	while(bi < before.size() && ai < after.size()) {
+		if (before[bi] == after[ai]) {
+			++bi; ++ai;
+			continue;
+		}
+		if (before[bi] == after[ai+1]) {
+			++bi; ai += 2;
+			if (done) return false;
+			done = true;
+			continue;
+		}
+		if (before[bi+1] == after[ai+1]) {
+			bi += 2;
+			ai += 2;
+			if (done) return false;
+			done = true;
+			continue;
+		}
+		return false;
+	}
+	return true;
+}
