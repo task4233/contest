@@ -129,3 +129,20 @@ bool can_be_made(std::string before, std::string after) {
 	}
 	return true;
 }
+
+/* 6
+文字列を圧縮する
+O(N)
+*/
+
+std::string compress(std::string words) {
+	std::string res = "";
+	for (unsigned idx=0; idx<words.size(); ++idx) {
+		unsigned cnt = 1;
+		for (;idx+1 < words.size() && words[idx] == words[idx+1]; ++idx, ++cnt);
+		res += words[idx] + std::to_string(cnt);
+	}
+
+	if (res.size() < words.size()) return res;
+	return words;
+}
