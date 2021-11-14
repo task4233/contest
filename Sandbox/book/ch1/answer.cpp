@@ -1,4 +1,4 @@
-/*
+/* 1
 解説:
 ・ASCIIかUnicodeか確認する
 -> これによりCSの知識があることをアピールできる
@@ -10,6 +10,7 @@
 
 #include <string>
 #include <set>
+#include <algorithm>
 #include "main.hpp"
 
 // ASCIIと仮定する
@@ -47,3 +48,28 @@ bool is_unique(std::string str) {
     }
     return true;
 }
+
+/* 2
+2つの文字列が与えられた時に、片方がもう片方の文字列の並べ替えになっているかを確認する
+
+解法
+1: 両方ソートして同じかを比較する O(nlogn), (n)
+2: 同じ文字種の数を数える O(n), O(1)
+*/
+
+// 1
+bool is_sorting_words(std::string s, std::string t) {
+    // 文字列長が等しくなければそもそも並べ替えても等しくならない
+    if (s.size() != t.size()) return false;
+
+    std::sort(s.begin(), s.end());
+    std::sort(t.begin(), t.end());
+
+    for (unsigned int idx=0; idx < s.size(); ++idx) {
+        if (s[idx] != t[idx]) return false;
+    }
+    return true;
+}
+
+// 2: main.cppで実装ずみ
+
