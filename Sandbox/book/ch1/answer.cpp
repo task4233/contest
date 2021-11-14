@@ -96,3 +96,25 @@ std::string replace_space(std::string words) {
     }
     return res;
 }
+
+/* 4
+文字列が回文の順列かを確認する
+
+解法
+1. ハッシュテーブルを用いて各文字が何回出現するかを確認し、そのような文字列が複数存在しないことを確認する
+2. 1.における後半の確認操作を前半の処理と共に実施する
+3. 文字種の出現回数が偶数か奇数か知れれば良いのでbitsetで出現回数を管理し、
+   最後に1引いたものとANDをとったときに0になっていなければビットが2つ以上立っていることになる(すなわち、奇数が2つ以上あるということ)
+*/
+
+bool is_palindrome_permutation(std::string words) {
+    int used = 0;
+    for (unsigned int idx=0; idx<words.size(); ++idx) {
+        // 出現するのはASCII文字列(小文字のみ)と仮定する
+        // 出現したらXORをかけることでビット列を反転できる
+        used ^= (1 << (words[idx] - 'a'));
+    }
+
+// 立っているビットが高々1つしかないことを保証する
+    return (used & (used - 1)) == 0;
+}
