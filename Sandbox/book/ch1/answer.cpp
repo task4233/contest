@@ -73,3 +73,26 @@ bool is_sorting_words(std::string s, std::string t) {
 
 // 2: main.cppで実装ずみ
 
+/* 3
+文字列をURLパーセントエンコーディングしてね( -> %20)
+
+解法:
+1. 1度空白文字列の数を数えてメモリを確保してから、置き換えを行う
+
+C++のstd::stringはmutableなのであまり気にしなくておk
+*/
+
+// 1
+std::string replace_space(std::string words) {
+    std::string res = "";
+    unsigned int ri = 0;
+
+    for (unsigned int idx=0; idx<words.size(); ++idx) {
+        if (words[idx] == ' ') {
+            res += "%20";
+        } else {
+            res += words[idx];
+        }
+    }
+    return res;
+}
