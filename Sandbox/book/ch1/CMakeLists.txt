@@ -7,7 +7,8 @@ find_package(GTest REQUIRED)
 
 include(GoogleTest)
 
-add_executable(test_ch1 test.cpp main.cpp)
+# add_executable(test_ch1 test.cpp main.cpp)
+add_executable(test_ch1 test.cpp answer.cpp)
 target_link_libraries(test_ch1 GTest::GTest GTest::Main)
 
 gtest_add_tests(TARGET test_ch1)

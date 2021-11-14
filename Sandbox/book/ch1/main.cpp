@@ -1,11 +1,11 @@
-/*
+/* 1: 重複のある文字列
   ある文字列が全て固有であるかを判定するアルゴリズムを実装せよ
   文字種に制限があるなら、色々工夫できそう
   今回はASCII全てと仮定する
   -> 時間計算量はO(文字列長さ)、空間計算量はO(文字種)
 */
 
-#include "main.hpp"
+// #include "main.hpp"
 
 #include <string>
 #include <vector>
@@ -146,3 +146,9 @@ std::string compress(std::string words) {
 	if (res.size() < words.size()) return res;
 	return words;
 }
+
+/* 7
+文字列を90度時計回りに回転する
+
+*/
+
